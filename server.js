@@ -11,7 +11,7 @@ app.use(bodyParser.urlencoded({ extended: true }));
  * DATABASE *
  ************/
 
-var db = require('./models');
+// var db = require('./models');
 
 /**********
  * ROUTES *
