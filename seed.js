@@ -3,7 +3,7 @@
 
 var db = require('./models');
 
-var andrea_profile = [{
+var new_profile = [{
   name: "Andrea Ceballos",
   github_link: "https://github.com/andreaainara",
   current_city: "San Leandro, CA",
@@ -52,13 +52,18 @@ var family_members_list = [
   },
   {
     name: "Mateo Ceballos",
-    relationship: "ßBrother",
+    relationship: "Brother",
     age: 7,
     current_city: "San Lorenzo, CA"
   }
 ];
 
-
+db.Andrea.create(new_profile, function(err, profile){
+  if (err) {
+    return console.log ("error: " + err);
+  }
+  console.log("New profile created, id: " + profile_id);
+});
 
 // var new_campsite = {description: "Sharp rocks. Middle of nowhere."}
 
