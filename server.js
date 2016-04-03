@@ -11,7 +11,7 @@ app.use(bodyParser.urlencoded({ extended: true }));
  * DATABASE *
  ************/
 
-// var db = require('./models');
+var db = require('./models');
 
 /**********
  * ROUTES *
@@ -44,7 +44,7 @@ app.get('/api', function api_index(req, res) {
     endpoints: [
       {method: "GET", path: "/api", description: "Describes all available endpoints"},
       {method: "GET", path: "/api/profile", description: "Data about me"}, // CHANGE ME
-      {method: "POST", path: "/api/andrea", description: "E.g. Create a new campsite"} // CHANGE ME
+      {method: "POST", path: "/api/andrea", description: "Create new personality traits"} // CHANGE ME
     ]
   });
 });
