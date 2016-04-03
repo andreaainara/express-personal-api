@@ -20,7 +20,6 @@ var db = require('./models');
 // Serve static files from the `/public` directory:
 // i.e. `/images`, `/scripts`, `/styles`
 app.use(express.static('public'));
-app.use(bodyParser.urlencoded({ extended: true }));
 
 /*
  * HTML Endpoints
@@ -37,12 +36,6 @@ app.get('/', function homepage(req, res) {
 
 app.get('/api/profile', function api_index(req, res) {
   // TODO: Document all your api endpoints below
-  db.Andrea.find().populate('andrea')
-    .exec(fucntion(err, andrea) {
-      if (err) { return console.log("index error:" + err); }
-      res.json(andrea);
-    });
-  });
 
   res.json({
     // woops_i_has_forgot_to_document_all_my_endpoints: true, // CHANGE ME ;)
