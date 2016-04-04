@@ -3,6 +3,16 @@
 
 var db = require('./models');
 
+var profile = [{
+  name: "Andrea Ceballos",
+  github_link: "https://github.com/andreaainara",
+  current_city: "San Leandro, CA",
+  family_members: familyMembers,
+  pets: {name: "Tosca", breed: "Maltese", age: 11, color: "White"},
+  favorite_colors: "Teal, Purple, Green, Red",
+  favorite_books: favoriteBooks
+}];
+
 var familyMembers = [
   {
     name: "Elsa Ceballos",
@@ -68,18 +78,12 @@ var favoriteBooks = [
   {
     title: "The Devotion of Suspect X",
     author: "Keigo Higashino"
+  },
+  {
+    title: "Will Grayson, Will Grayson",
+    author: "John Green and David Levithan"
   }
 ];
-
-var profile = [{
-  name: "Andrea Ceballos",
-  github_link: "https://github.com/andreaainara",
-  current_city: "San Leandro, CA",
-  family_members: familyMembers,
-  pets: {name: "Tosca", breed: "Maltese", age: 11, color: "White"},
-  favorite_colors: "Teal, Purple, Green, Red",
-  favorite_books: favoriteBooks
-}];
 
 
 db.Andrea.create(profile, function(err, profile){
@@ -102,6 +106,6 @@ db.FavoriteBooks.create(favoriteBooks, function(err, favoriteBooks) {
   if (err) {
     return console.log("error: " + err);
   }
-  console.log("New books created, id: " + familyMembers._id);
+  console.log("New books created, id: " + favoriteBooks._id);
   process.exit();
 });
