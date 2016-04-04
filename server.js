@@ -31,6 +31,7 @@ app.use(express.static('public'));
 
 app.get('/', function homepage(req, res) {
   res.sendFile({ root: __dirname }, '/views/index.html');
+  res.status(200).json(AndreaSchema);
 });
 
 
