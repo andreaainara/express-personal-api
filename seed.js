@@ -3,16 +3,7 @@
 
 var db = require('./models');
 
-var new_profile = [{
-  name: "Andrea Ceballos",
-  github_link: "https://github.com/andreaainara",
-  current_city: "San Leandro, CA",
-  family_members: family_members_list,
-  pets: {name: "Tosca", breed: "Maltese", age: 11, color: "White"},
-  favorite_colors: "Teal, Purple, Green, Red"
-}];
-
-var family_members_list = [
+var familyMembers = [
   {
     name: "Elsa Ceballos",
     relationship: "Mother",
@@ -57,7 +48,7 @@ var family_members_list = [
   }
 ];
 
-var favorite_books = [
+var favoriteBooks = [
   {
     title: "Mexican Whiteboy",
     author: "Matt de la Peña"
@@ -80,21 +71,37 @@ var favorite_books = [
   }
 ];
 
+var profile = [{
+  name: "Andrea Ceballos",
+  github_link: "https://github.com/andreaainara",
+  current_city: "San Leandro, CA",
+  family_members: familyMembers,
+  pets: {name: "Tosca", breed: "Maltese", age: 11, color: "White"},
+  favorite_colors: "Teal, Purple, Green, Red",
+  favorite_books: favoriteBooks
+}];
 
-db.Andrea.create(new_profile, function(err, profile){
+
+db.Andrea.create(profile, function(err, profile){
   if (err) {
     return console.log ("error: " + err);
   }
-  console.log("New profile created, id: " + profile_id);
+  console.log("New profile created, id: " + profile._id);
+  process.exit();
 });
 
-// var new_campsite = {description: "Sharp rocks. Middle of nowhere."}
+db.FamilyMember.create(familyMembers, function(err, familyMembers){
+  if (err) {
+    return console.log ("error: " + err);
+  }
+  console.log("New family members created, id: " + familyMembers._id);
+  process.exit();
+});
 
-// db.Campsite.create(new_campsite, function(err, campsite){
-//   if (err){
-//     return console.log("Error:", err);
-//   }
-
-//   console.log("Created new campsite", campsite._id)
-//   process.exit(); // we're all done! Exit the program.
-// })
+db.FavoriteBooks.create(favoriteBooks, function(err, favoriteBooks) {
+  if (err) {
+    return console.log("error: " + err);
+  }
+  console.log("New books created, id: " + familyMembers._id);
+  process.exit();
+});

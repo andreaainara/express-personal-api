@@ -4,3 +4,5 @@ mongoose.connect( process.env.MONGOLAB_URI ||
                   "mongodb://localhost/personal-api");
 
 module.exports.Andrea = require("./andrea.js");
+module.exports.FamilyMember = require("./family.js");
+module.exports.FavoriteBooks = require("./books.js");
