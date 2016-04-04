@@ -15,7 +15,7 @@ var AndreaSchema = new Schema({
     {name: String, relationship: String, age: number, current_city: String}
   ],
   pets: {name: String, breed: String, age: String, color: String},
-  favorite_colors: String
+  favorite_colors: String,
 });
 
 var Andrea = mongoose.model('Andrea', AndreaSchema);

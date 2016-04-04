@@ -9,8 +9,7 @@ var new_profile = [{
   current_city: "San Leandro, CA",
   family_members: family_members_list,
   pets: {name: "Tosca", breed: "Maltese", age: 11, color: "White"},
-  favorite_colors: "Teal, Purple, Green, Red",
-  favorite_movies: ["The Sandlot", "The Princess Bride", "Public Enemies", "Deadpool"]
+  favorite_colors: "Teal, Purple, Green, Red"
 }];
 
 var family_members_list = [
@@ -57,6 +56,30 @@ var family_members_list = [
     current_city: "San Lorenzo, CA"
   }
 ];
+
+var favorite_books = [
+  {
+    title: "Mexican Whiteboy",
+    author: "Matt de la Peña"
+  },
+  {
+    title: "The Girl with the Dragon Tattoo (and following sequels)",
+    author: "Stieg Larsson"
+  },
+  {
+    title: "The Shape of the Water (and other Inspector Montalbano novels)",
+    author: "Andrea Camilleri"
+  },
+  {
+    title: "The Shining Girls",
+    author: "Lauren Beukes"
+  },
+  {
+    title: "The Devotion of Suspect X",
+    author: "Keigo Higashino"
+  }
+];
+
 
 db.Andrea.create(new_profile, function(err, profile){
   if (err) {
