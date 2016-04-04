@@ -1,111 +1,119 @@
 console.log("Sanity Check: JS is working!");
 var template;
-var $booksList;
+var $bookList;
 var allBooks = [];
 
 $(document).ready(function(){
 
-  // $booksList = $('#bookTarget');
-  //
-  // // compile handlebars template
-  // var source = $('#books-template').html();
-  // template = Handlebars.compile(source);
+$bookList = $('#bookTarget');
 
+// compile handlebars template
+var source = $('#book-template').html();
+template = Handlebars.compile(source);
+//get profile data
   $.ajax({
     method: 'GET',
+    url: '/api/profile',
+    success: showProfileSuccess,
+    error: showProfileError
+  });
+
+$('#newBookForm').on('submit', function(e){
+  e.preventDefault();
+  console.log('new book serialized ', $(this).serializeArray());
+  $.ajax({
+    method: 'POST',
     url: '/api/favoritebooks',
-    success: handleSuccess,
-    error: handleError
-  });
-
-  $('#newBookForm').on('submit', function(e) {
-    e.preventDefault();
-    console.log('new book serialized', $(this).serializeArray());
-    $.ajax({
-      method: 'POST',
-      url: '/api/favoritebooks',
-      data: $(this).serializeArray(),
-      success: newBookSuccess,
-      error: newBookError
-    });
-  });
-
-  $booksList.on('click', '.deleteBtn', function() {
-    console.log('clicked delete button to', '/api/favoritebooks/'+$(this).attr('data-id'));
-    $.ajax({
-      method: 'DELETE',
-      url: '/api/favoritebooks/'+$(this).attr('data-id'),
-      success: deleteBookSuccess,
-      error: deleteBookError
-    });
+    data: $(this).serializeArray(),
+    success: newBookSuccess,
+    error: newBookError
   });
 });
 
-// helper function to render all posts to view
-// note: we empty and re-render the collection each time our post data changes
-function render () {
-  // empty existing posts from view
-  $booksList.empty();
+$('#newBookForm').on('submit', function(e){
+  e.preventDefault();
+  $.ajax({
+    method: 'PUT',
+    url: '/api/favoritebooks/' + $(this).attr('data-id'),
+    success: updateSuccess,
+    error: updateError
+  });
+});
 
-  // pass `allBooks` into the template function
-  var booksHtml = template({ books: allBooks });
+$bookList.on('click', '.deleteBtn', function(){
+  console.log('you are trying to delete ', '/api/favoritebooks/' + $(this).attr('data-id'));
+  $.ajax({
+    method: 'DELETE',
+    url: '/api/favoritebooks/' + $(this).attr('data-id'),
+    success: deleteBookSuccess,
+    error: deleteBookError
+  });
+});
 
-  // append html to the view
-  $booksList.append(booksHtml);
+});
+
+//helper function to render all posts to views
+//the collection is emptied and re-rendered every time our posts data change
+function render(){
+  //empty existing posts from views
+  $bookList.empty();
+  var source = $('#book-template').html();
+  var template = Handlebars.compile(source);
+  //pass allCity empty array into the template function
+  var bookHtml = template({ favoritebooks : allBooks });
+  //append to html to the view
+  $bookList.append(bookHtml);
 }
 
-function handleSuccess(json) {
-  allBooks = json;
-  render();
+function showProfileSuccess(json){
+// compile handlebars template
+var source = $('#profile-template').html();
+var template = Handlebars.compile(source);
+
+var profile = json.Profile;
+var profileHtml = template({profile:profile});
+$('#profileTarget').append(profileHtml);
 }
 
-function handleError(e) {
-  console.log('uh oh');
-  $('#bookTarget').text('Failed to load books, is the server working?');
+function showProfileError(err){
+  console.log("Error: " + err);
 }
 
-function newBookSuccess(json) {
-  $('#newBookForm input').val('');
+function newBookSuccess(json){
+  $('#newBookForm').val('');
   allBooks.push(json);
   render();
 }
 
-function newBookError() {
-  console.log('newbook error!');
+function newBookError(){
+  console.log("Andrea doesn't like that book!");
 }
 
-function deleteBookSuccess(json) {
-  var book = json;
+function updateSuccess(json){
+  $('#newBookForm').val('');
+  allBooks.push(json);
+  render();
+}
+
+function updateError(){
+  console.log("Book update error!");
+}
+
+function deleteBookSuccess(json){
+  var favoriteBooks = json;
   console.log(json);
-  var bookId = book._id;
-  console.log('delete book', bookId);
-  // find the book with the correct ID and remove it from our allBooks array
-  for(var index = 0; index < allBooks.length; index++) {
-    if(allBooks[index]._id === bookId) {
+  var bookId = favoriteBooks._id;
+  console.log('delete book: ', bookId);
+  // this will find the correct book and remove it from the array
+  for(var index = 0; index < allBooks.length; index++){
+    if(allBooks[index]._id === bookId){
       allBooks.splice(index, 1);
-      break;  // we found our book - no reason to keep searching (this is why we didn't use forEach)
+      break;
     }
   }
   render();
 }
 
-function deleteBookError() {
-  console.log('deletebook error!');
-}
-
-function newCharacterSuccess(json) {
-  var book = json;
-  var bookId = book._id;
-  // find the book with the correct ID and update it
-  for(var index = 0; index < allBooks.length; index++) {
-    if(allBooks[index]._id === bookId) {
-      allBooks[index] = book;
-      break;  // we found our book - no reason to keep searching (this is why we didn't use forEach)
-    }
-  }
-  render();
-}
-
-function newCharacterError() {
-  console.log('adding new character error!');
+function deleteBookError(){
+  console.log('Error! Why are you trying to take it away? :(');
 }
